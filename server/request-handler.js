@@ -13,6 +13,9 @@ this file and include it in basic-server.js so that it actually works.
 **************************************************************/
 var qs = require('querystring');
 var url = require('url');
+var fs = require('fs');
+var path = require('path');
+
 var storage = {results: []};
 exports.requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -46,10 +49,10 @@ exports.requestHandler = function(request, response) {
     var body = '';
     request.on('data', function(data) {
       body+=data;
+      console.log(data);
     });
     request.on('end', function() {
       var message = JSON.parse(body);
-      console.log(message);
       message["createdAt"] = Date.now();
       storage.results.push(message);
       statusCode = 201;
@@ -59,26 +62,49 @@ exports.requestHandler = function(request, response) {
   }
   
   if (request.method === 'GET') {
-    
-    if (request.url === '/classes/messages') {
-      statusCode = 200;
-      response.writeHead(statusCode, headers);
-      response.end(JSON.stringify(storage));
-      // response.end();
-    } else if (request.url === '/log'){
-      statusCode = 200;
-      response.writeHead(statusCode, headers);
-      response.end();
-    } else if (request.url === '/classes/room1'){
-      statusCode = 200;
-      response.writeHead(statusCode, headers);
-      response.end(JSON.stringify(storage));
+    var url = request.url;
+
+    var potentialFile = '../client/client' + url;
+
+    if (url === '/') {
+      potentialFile += 'index.html';  
     }
-    else {
-      statusCode = 404;
+
+    console.log(potentialFile);
+
+    fs.readFile(potentialFile, function(err, data) {
+      if (err) {
+
+        if (url === '/classes/messages') {
+          statusCode = 200;
+          response.writeHead(statusCode, headers);
+          response.end(JSON.stringify(storage));
+        } else if (url === '/log'){
+          statusCode = 200;
+          response.writeHead(statusCode, headers);
+          response.end();
+        } else if (url === '/classes/room1'){
+          statusCode = 200;
+          response.writeHead(statusCode, headers);
+          response.end(JSON.stringify(storage));
+        } else if (url === '/chatterbox'){
+          statusCode = 200;
+          response.writeHead(statusCode, headers);
+          response.end(JSON.stringify(storage));
+        } else {
+          statusCode = 404;
+          response.writeHead(statusCode, headers);
+          response.end();
+        }
+      }
+      //No error, read the file and send it back
+      var extension = path.extname(potentialFile);
+      statusCode = 200;
+      headers['Content-Type'] = "text/" + extension.slice(1);
       response.writeHead(statusCode, headers);
-      response.end();
-    }
+      response.end(data);
+    });
+
   } 
   // See the note below about CORS headers.
 
