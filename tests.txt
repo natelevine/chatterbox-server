@@ -1,7 +1,0 @@
-   1) should respond to GET requests for /log with a 200 status code
-    2) should send back parsable stringified JSON
-    3) should send back an object
-    4) should send an object containing a `results` array
-    5) should accept POST requests to /send
-    6) should respond with messages that were previously posted
-    7) Should 404 when asked for a nonexistent file
