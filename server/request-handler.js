@@ -18,6 +18,15 @@ var path = require('path');
 var objectId = 0;
 
 var storage = {results: []};
+
+fs.readFile('./storage', function(err, data) {
+  if (err) {
+    console.log("error retrieving old messages");
+  }
+  oldMsgs = JSON.parse(data);
+  storage.results.concat(oldMsgs.results);
+});
+
 exports.requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -60,7 +69,14 @@ exports.requestHandler = function(request, response) {
       statusCode = 201;
       response.writeHead(statusCode, headers);
       response.end();
-      console.log(storage);
+
+      //Write the new message to a local file using fs
+      fs.writeFile("./storage", JSON.stringify(storage), function(err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The file was saved!!");
+      });
     });
   }
   
