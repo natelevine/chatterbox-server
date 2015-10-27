@@ -15,6 +15,7 @@ var qs = require('querystring');
 var url = require('url');
 var fs = require('fs');
 var path = require('path');
+var objectId = 0;
 
 var storage = {results: []};
 exports.requestHandler = function(request, response) {
@@ -53,11 +54,13 @@ exports.requestHandler = function(request, response) {
     });
     request.on('end', function() {
       var message = JSON.parse(body);
-      message["createdAt"] = Date.now();
+      message.createdAt = Date.now();
+      message.objectId = ++objectId;
       storage.results.push(message);
       statusCode = 201;
       response.writeHead(statusCode, headers);
       response.end();
+      console.log(storage);
     });
   }
   
