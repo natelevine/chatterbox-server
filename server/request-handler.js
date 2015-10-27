@@ -11,10 +11,10 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-var qs = require('querystring');
 var url = require('url');
 var fs = require('fs');
 var path = require('path');
+var qs = require('querystring');
 var objectId = 0;
 
 var storage = {results: []};
@@ -22,9 +22,10 @@ var storage = {results: []};
 fs.readFile('./storage', function(err, data) {
   if (err) {
     console.log("error retrieving old messages");
+  } else {
+    oldMsgs = JSON.parse(data);
+    storage.results.concat(oldMsgs.results);
   }
-  oldMsgs = JSON.parse(data);
-  storage.results.concat(oldMsgs.results);
 });
 
 exports.requestHandler = function(request, response) {
@@ -56,6 +57,7 @@ exports.requestHandler = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
 
   if (request.method === 'POST') {
+    console.log("POSTING A MESSAGE");
     var body = '';
     request.on('data', function(data) {
       body+=data;
@@ -80,7 +82,7 @@ exports.requestHandler = function(request, response) {
     });
   }
   
-  if (request.method === 'GET') {
+  else if (request.method === 'GET') {
     var url = request.url;
 
     var potentialFile = '../client/client' + url;
@@ -102,7 +104,7 @@ exports.requestHandler = function(request, response) {
           statusCode = 200;
           response.writeHead(statusCode, headers);
           response.end();
-        } else if (url === '/classes/room1'){
+        } else if (url === '/classes/room1' || url === '/classes/room' ){
           statusCode = 200;
           response.writeHead(statusCode, headers);
           response.end(JSON.stringify(storage));
@@ -126,6 +128,11 @@ exports.requestHandler = function(request, response) {
 
   } 
   // See the note below about CORS headers.
+  else if (request.method === "OPTIONS") {
+    statusCode = 200;
+    response.writeHead(statusCode, headers);
+    response.end();
+  }
 
   // Tell the client we are sending them plain text.
   //
