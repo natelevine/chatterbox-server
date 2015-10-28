@@ -31,7 +31,7 @@ var Message = Backbone.Model.extend({
 var Messages = Backbone.Collection.extend({
 
   model: Message,
-  url: '/cloudmouth',
+  url: '/',
 
   loadMsgs: function() {
     // this.fetch({data: { order: '-createdAt' }});

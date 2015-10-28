@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
   res.sendfile(__dirname + '/client/index.html');
 });
 
-app.get('/cloudmouth', function(req, res) {
+app.get('/', function(req, res) {
 	res.send(storage);
 });
 
