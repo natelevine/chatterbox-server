@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/cloudmouth', function(req, res) {
-	res.send(storage);
+	res.json(storage);
 });
 
 app.post('/cloudmouth', function(req, res){
