@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var storage = {results: []};
 var objectId = 0;
 
-var server = app.listen(5000, function () {
+var port = process.env.PORT || 5000;
+var server = app.listen(port, function () {
 	var host = server.address().address;
 	var port = server.address().port;
 });
