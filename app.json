@@ -1,0 +1,6 @@
+{
+  "name": "Cloudmouth",
+  "description": "yell at your friends",
+  "repository": "https://github.com/natelevine/chatterbox-server",
+  "keywords": ["express", "chat", "node"]
+}
