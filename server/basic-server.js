@@ -4,10 +4,10 @@ var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
 
-var storage = {results: []}; 
+var storage = {results: []};
 var objectId = 0;
 
-var server = app.listen(3000, function () {
+var server = app.listen(5000, function () {
 	var host = server.address().address;
 	var port = server.address().port;
 });
@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 
 app.get('/cloudmouth', function(req, res) {
 	res.send(storage);
-})
+});
 
 app.post('/cloudmouth', function(req, res){
 	req.body.objectId = ++objectId;
