@@ -7,12 +7,13 @@ var bodyParser = require('body-parser');
 var storage = {results: []};
 var objectId = 0;
 
-var port = process.env.PORT || 5000;
-var host = process.env.HOST;
-var server = app.listen(port, function () {
-	var host = server.address().address;
-	var port = server.address().port;
-});
+app.set('port', (process.env.PORT || 5000));
+// var port = process.env.PORT || 5000;
+// var host = process.env.HOST;
+// var server = app.listen(port, function () {
+// 	var host = server.address().address;
+// 	var port = server.address().port;
+// });
 
 app.use(express.static(__dirname + "/client"));
 app.use(cors());
