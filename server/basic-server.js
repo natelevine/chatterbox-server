@@ -30,7 +30,7 @@ app.get('/cloudmouth', function(req, res) {
 app.post('/cloudmouth', function(req, res){
 	req.body.objectId = ++objectId;
 	req.body.createdAt = Date.now();
-	storage.results.push(req.body);
+	storage.results.unshift(req.body);
 	console.log(storage.results);
 	res.send('got a POST request');
 });
