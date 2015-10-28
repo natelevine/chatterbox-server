@@ -8,6 +8,7 @@ var storage = {results: []};
 var objectId = 0;
 
 var port = process.env.PORT || 5000;
+var host = process.env.HOST;
 var server = app.listen(port, function () {
 	var host = server.address().address;
 	var port = server.address().port;
@@ -22,7 +23,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/cloudmouth', function(req, res) {
-	res.json(storage);
+	res.send(storage);
 });
 
 app.post('/cloudmouth', function(req, res){
