@@ -27,7 +27,7 @@ app.get('/cloudmouth', function(req, res) {
 	res.send(storage);
 });
 
-app.post('/cloudmouth1', function(req, res){
+app.post('/', function(req, res){
 	req.body.objectId = ++objectId;
 	req.body.createdAt = Date.now();
 	storage.results.push(req.body);

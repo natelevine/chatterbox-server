@@ -21,7 +21,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 var Message = Backbone.Model.extend({
-  url: '/cloudmouth1',
+  url: '/',
   defaults: {
     username: '',
     text: ''
