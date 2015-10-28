@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var storage = {results: []};
 var objectId = 0;
 
-app.set('port', (process.env.PORT || 5000));
-// var port = process.env.PORT || 5000;
+// app.set('port', (process.env.PORT || 5000));
+var port = process.env.PORT || 5000;
 // var host = process.env.HOST;
 var server = app.listen(port, function () {
 	var host = server.address().address;
@@ -27,7 +27,7 @@ app.get('/cloudmouth', function(req, res) {
 	res.send(storage);
 });
 
-app.post('/cloudmouth', function(req, res){
+app.post('/', function(req, res){
 	req.body.objectId = ++objectId;
 	req.body.createdAt = Date.now();
 	storage.results.push(req.body);
